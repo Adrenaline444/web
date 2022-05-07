@@ -2,7 +2,6 @@
 <template>
   <div class="">
     <input type="text" v-model="message" />
-    {{ message }}
   </div>
 </template>
 
