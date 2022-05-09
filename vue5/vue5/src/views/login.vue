@@ -1,7 +1,34 @@
 <!--  -->
 <template>
-  <div class="">
-
+  <div class="login">
+    <div class="login_body">
+      <h2>登录</h2>
+      <van-form @submit="onSubmit">
+        <van-field
+          v-model="username"
+          name="用户名"
+          label="用户名"
+          placeholder="用户名"
+        />
+        <van-field
+          v-model="password"
+          type="password"
+          name="密码"
+          label="密码"
+          placeholder="密码"
+        />
+        <div style="margin: 16px">
+          <van-button
+            round
+            block
+            type="info"
+            native-type="submit"
+            @click="login_btn"
+            >提交</van-button
+          >
+        </div>
+      </van-form>
+    </div>
   </div>
 </template>
 
@@ -15,7 +42,8 @@ export default {
   data() {
     //这里存放数据
     return {
-
+      username: "",
+      password: "",
     };
   },
   //监听属性 类似于data概念
@@ -23,20 +51,30 @@ export default {
   //监控data中的数据变化
   watch: {},
   //方法集合
-  methods: {},
+  methods: {
+    onSubmit() {},
+    login_btn() {
+      console.log();
+    },
+  },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() { },
+  created() {},
   //生命周期 - 挂载完成（可以访问DOM元素）
-  mounted() { },
-  beforeCreate() { }, //生命周期 - 创建之前
-  beforeMount() { }, //生命周期 - 挂载之前
-  beforeUpdate() { }, //生命周期 - 更新之前
-  updated() { }, //生命周期 - 更新之后
-  beforeDestroy() { }, //生命周期 - 销毁之前
-  destroyed() { }, //生命周期 - 销毁完成
-  activated() { }, //如果页面有keep-alive缓存功能，这个函数会触发
+  mounted() {},
+  beforeCreate() {}, //生命周期 - 创建之前
+  beforeMount() {}, //生命周期 - 挂载之前
+  beforeUpdate() {}, //生命周期 - 更新之前
+  updated() {}, //生命周期 - 更新之后
+  beforeDestroy() {}, //生命周期 - 销毁之前
+  destroyed() {}, //生命周期 - 销毁完成
+  activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
 <style lang='scss' scoped>
 //@import url(); 引入公共css类
+.login_body {
+  h2 {
+    margin-top: 80px;
+  }
+}
 </style>
