@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div class="">
-    <input type="text" v-model="message" />
+
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
   data() {
     //这里存放数据
     return {
-      message: "test",
+
     };
   },
   //监听属性 类似于data概念
