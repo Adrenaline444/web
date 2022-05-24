@@ -75,7 +75,7 @@ export default {
         return;
       }
 
-      this.$axios 
+      this.$axios
         .post("http://localhost:8090/admin/login", this.loginFrom)
         .then((res) => {
           console.log(res);
@@ -85,9 +85,13 @@ export default {
                 message: res.data.msg,
                 type: "success",
               });
+
+              // 网页缓存:保存登录token
+              sessionStorage.setItem("token", res.data.token);
+
               this.$router.push({
-                name:'home'
-              })
+                name: "home",
+              });
             } else if (res.data.code == 201) {
               this.$message({
                 message: res.data.msg,

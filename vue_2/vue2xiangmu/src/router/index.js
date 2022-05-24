@@ -8,24 +8,35 @@ Vue.use(VueRouter)
 
 
 const routes = [{
-    path: '/',
-    name: 'login',
-    component: login
-  },
-  {
-    path: '/resign',
-    name: 'resign',
-    component: resign
-  },
-  {
-    path: '/home',
-    name: 'home',
-    component: home
-  }
+  path: '/',
+  name: 'login',
+  component: login
+},
+{
+  path: '/resign',
+  name: 'resign',
+  component: resign
+},
+{
+  path: '/home',
+  name: 'home',
+  component: home
+}
 ]
 
 const router = new VueRouter({
   routes
+})
+
+//路由守卫
+router.beforeEach((to, from, next) => {
+  console.log(to, from)
+  if (to.fullPath != '/') {
+    if (sessionStorage.getItem('token') == undefined) {
+      return next('/')
+    }
+  }
+  next()
 })
 
 export default router
