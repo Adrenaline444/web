@@ -2,7 +2,7 @@ $router.push();
 <template>
   <div class="login-body">
     <div class="login">
-      <h2>用户登录</h2>
+      <h2>{{ title }}</h2>
       <div class="login_box">
         <input type="text" required v-model="loginFrom.student_id" /><label
           >用户名</label
@@ -36,6 +36,7 @@ export default {
   components: {},
   data() {
     return {
+      title: "用户名登录",
       loginFrom: {
         student_id: "",
         password: "",
