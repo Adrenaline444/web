@@ -48,9 +48,12 @@ export default {
   },
   methods: {
     login() {
-      let then = this;
-      if (then.timer) {
-        then.timer = false; // console.log(1); //这里写事件
+      let test_blm = this;
+      if (test_blm.timer) {
+        test_blm.timer = false;
+        setTimeout(() => {
+          test_blm.timer = true;
+        }, 1000);
         if (this.from.username == "") {
           this.$message({
             showClose: true,
@@ -61,28 +64,26 @@ export default {
         } else if (this.from.password == "") {
           this.$message({
             showClose: true,
-            message: "警告哦，这是一条警告消息",
+            message: "密码为空",
             type: "warning",
           });
           return;
         }
-        if (this.from.username == "123" && this.from.password == "123") {
+        if (this.from.username == "111" && this.from.password == "222") {
           this.$message({
             showClose: true,
             message: "恭喜你，这是一条成功消息",
             type: "success",
           });
           this.$router.push({
-            name: "about",
+            // name: "about",
+            path: "/about",
           });
         }
 
         if (this.checkbox == true) {
           localStorage.setItem("user", JSON.stringify(this.from)); // 转为字符串模式
         }
-        setTimeout(() => {
-          then.timer = true;
-        }, 1000);
       }
     },
   },

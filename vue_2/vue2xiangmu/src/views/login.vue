@@ -15,13 +15,6 @@ $router.push();
           v-model="loginFrom.password"
         /><label>密码</label>
       </div>
-      <!-- <a href="javascript:void(0)" @click="loginClick('re_login')">
-        登录
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </a> -->
 
       <el-button-group>
         <el-button type="primary" @click="login_clk">登录</el-button>
