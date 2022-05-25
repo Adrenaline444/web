@@ -9,16 +9,22 @@
         <div class="home_right_from">
           <h3>登录</h3>
           <label>用户名</label>
-          <input type="text" placeholder="请输入用户名" />
+          <input
+            type="text"
+            v-model="from.username"
+            placeholder="请输入用户名"
+          />
           <label>密码</label>
-          <input type="password" placeholder="密码" />
+          <input type="password" v-model="from.password" placeholder="密码" />
           <div class="checkbox">
-            <input type="checkbox" />
+            <input type="checkbox" v-model="checkbox" />
             <p>记住密码</p>
           </div>
         </div>
         <div class="login_btn">
-          <el-button class="test_btn" :loading="true">登录</el-button>
+          <el-button class="test_btn" type="primary" @click="login"
+            >登录</el-button
+          >
         </div>
       </div>
     </div>
@@ -30,9 +36,55 @@
 export default {
   data() {
     return {
+      timer: true, //防抖开关
+      from: {
+        username: "",
+        password: "",
+      },
       msg: "快乐牌刀片",
       xk: require("../assets/img/xk.jpg"),
+      checkbox: false,
     };
+  },
+  methods: {
+    login() {
+      let then = this;
+      if (then.timer) {
+        then.timer = false; // console.log(1); //这里写事件
+        if (this.from.username == "") {
+          this.$message({
+            showClose: true,
+            message: "警告哦，这是一条警告消息",
+            type: "warning",
+          });
+          return;
+        } else if (this.from.password == "") {
+          this.$message({
+            showClose: true,
+            message: "警告哦，这是一条警告消息",
+            type: "warning",
+          });
+          return;
+        }
+        if (this.from.username == "123" && this.from.password == "123") {
+          this.$message({
+            showClose: true,
+            message: "恭喜你，这是一条成功消息",
+            type: "success",
+          });
+          this.$router.push({
+            name: "about",
+          });
+        }
+
+        if (this.checkbox == true) {
+          localStorage.setItem("user", JSON.stringify(this.from)); // 转为字符串模式
+        }
+        setTimeout(() => {
+          then.timer = true;
+        }, 1000);
+      }
+    },
   },
 };
 </script>
