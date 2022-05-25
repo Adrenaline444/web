@@ -24,7 +24,6 @@
 
 nav {
   padding: 30px;
-  background: red;
 
   a {
     font-weight: bold;
