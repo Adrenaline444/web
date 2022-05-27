@@ -67,8 +67,6 @@
                         return;
                     }
 
-
-
                     if (this.from.username == "1" && this.from.password == "2") {
                         this.$message({
                             showClose: true,
