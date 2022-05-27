@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+// import { component } from 'vue/types/umd'
 import login from '../views/login.vue'
-
+import test from '../views/test.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -16,6 +17,11 @@ const routes = [
     component: function () {
       return import(/* webpackChunkName: "about" */ '../views/about.vue')
     }
+  },
+  {
+    path: '/test',
+    name: '/test',
+    component: test
   }
 ]
 

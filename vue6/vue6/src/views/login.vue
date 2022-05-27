@@ -20,6 +20,9 @@
                 <div class="login_btn">
                     <el-button class="test_btn" type="primary" @click="login">登录</el-button>
                 </div>
+                <!-- <div class="num">
+                    {{num}}
+                </div> -->
             </div>
         </div>
     </div>
@@ -64,6 +67,8 @@
                         return;
                     }
 
+
+
                     if (this.from.username == "1" && this.from.password == "2") {
                         this.$message({
                             showClose: true,
@@ -89,6 +94,12 @@
                 }
             },
         },
+        // computed:{
+        //     num(){
+        //         console.log(parseInt(this.from.username)+parseInt(this.from.password));
+        //         return parseInt(this.from.username)+parseInt(this.from.password)
+        //     }
+        // },
     };
 </script>
 

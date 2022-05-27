@@ -19,14 +19,17 @@
           <el-menu :default-openeds="['1', '3']">
             <el-submenu index="1">
               <template slot="title">
-                <i class="el-icon-message"> </i>导航一</template>
+                <i class="el-icon-message"></i>导航一
+              </template>
               <el-menu-item index="1-1-1">选项1-1</el-menu-item>
               <el-menu-item index="1-1-2">选项1-2</el-menu-item>
               <el-menu-item index="1-1-3">选项1-3</el-menu-item>
               <el-menu-item index="1-1-4">选项1-4</el-menu-item>
             </el-submenu>
             <el-submenu index="2">
-              <template slot="title"><i class="el-icon-menu"></i>导航二</template>
+              <template slot="title">
+                <i class="el-icon-menu"></i>导航二
+              </template>
               <el-menu-item-group>
                 <template slot="title">分组一</template>
                 <el-menu-item index="2-1">选项1</el-menu-item>
@@ -46,8 +49,7 @@
         <el-main>
           <div class="input_list">
             <!-- <el-input v-model="date" placeholder="请输入内容"></el-input> -->
-            <el-date-picker v-model="date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
-            </el-date-picker>
+            <el-date-picker v-model="date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd"></el-date-picker>
             <el-input v-model="name" placeholder="请输入内容"></el-input>
             <el-input v-model="address" placeholder="请输入内容"></el-input>
           </div>
@@ -55,11 +57,9 @@
           <el-button size="mini" type="success" @click="add">添加数据</el-button>
 
           <el-table :data="tableData">
-            <el-table-column prop="date" label="日期" width="140">
-            </el-table-column>
-            <el-table-column prop="name" label="姓名" width="120">
-            </el-table-column>
-            <el-table-column prop="address" label="地址"> </el-table-column>
+            <el-table-column prop="date" label="日期" width="140"></el-table-column>
+            <el-table-column prop="name" label="姓名" width="120"></el-table-column>
+            <el-table-column prop="address" label="地址"></el-table-column>
 
             <el-table-column fixed="right" label="操作" width="100">
               <template slot-scope="scope">
@@ -67,12 +67,26 @@
                 <el-button type="text" size="small" @click="del_list(scope)">删除</el-button>
               </template>
             </el-table-column>
-
-
-
-
-            </el-table-column>
           </el-table>
+
+          <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+            <el-form>
+              <el-form-item label="活动名称" :label-width="formLabelWidth">
+                <el-date-picker v-model="date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd">
+                </el-date-picker>
+              </el-form-item>
+              <el-form-item label="活动名称" :label-width="formLabelWidth">
+                <el-input v-model="name" placeholder="请输入内容"></el-input>
+              </el-form-item>
+              <el-form-item label="活动名称" :label-width="formLabelWidth">
+                <el-input v-model="address" placeholder="请输入内容"></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="dialogFormVisible = false">取 消</el-button>
+              <el-button type="primary" @click="queding">确 定</el-button>
+            </div>
+          </el-dialog>
         </el-main>
       </el-container>
     </el-container>
@@ -89,10 +103,19 @@
     data() {
       //这里存放数据
       return {
-        tableData: [],
-        date: "",
-        name: "",
-        address: "",
+        tableData: [{
+          date: '2022-05-27',
+          name: '2',
+          address: '3'
+        }],
+        date: '',
+        name: '',
+        address: '',
+        index:'',
+
+        dialogTableVisible: false,
+        dialogFormVisible: false,
+        formLabelWidth: '120px'
       };
     },
     //监听属性 类似于data概念
@@ -103,36 +126,51 @@
     methods: {
       exit_clk() {
         this.$router.push({
-          path: "/",
+          path: '/'
         });
         localStorage.clear();
         sessionStorage.clear();
         this.$message({
           showClose: true,
-          message: "退出成功",
-          type: "success",
+          message: '退出成功',
+          type: 'success'
         });
       },
       add() {
         let list = {
           date: this.date,
           name: this.name,
-          address: this.address,
+          address: this.address
         };
-        if (list.date != "" && list.name != "" && list.address != "") {
+        if (list.date != '' && list.name != '' && list.address != '') {
           this.tableData.push(list);
-          this.date = "";
-          this.name = "";
-          this.address = "";
+          this.date = '';
+          this.name = '';
+          this.address = '';
         }
       },
       handleClick(row) {
         console.log(row);
+        this.dialogFormVisible = true;
+        this.date = row.date;
+        this.name = row.name;
+        this.address = row.address;
       },
       del_list(val) {
         console.log(val);
         this.tableData.splice(val.$index, 1);
       },
+      queding() {
+        this.dialogFormVisible = false;
+        let list = {
+          date: this.date,
+          name: this.name,
+          address: this.address
+        };
+      }
+
+
+
     },
     //生命周期 - 创建完成（可以访问当前this实例）
     created() {},
@@ -144,7 +182,7 @@
     updated() {}, //生命周期 - 更新之后
     beforeDestroy() {}, //生命周期 - 销毁之前
     destroyed() {}, //生命周期 - 销毁完成
-    activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
+    activated() {} //如果页面有keep-alive缓存功能，这个函数会触发
   };
 </script>
 <style lang='scss' scoped>
