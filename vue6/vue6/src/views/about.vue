@@ -50,14 +50,17 @@
           <div class="input_list">
             <!-- <el-input v-model="date" placeholder="请输入内容"></el-input> -->
             <el-date-picker
-              v-model="date"
+              v-model="input_date"
               type="date"
               placeholder="选择日期"
               value-format="yyyy-MM-dd"
             >
             </el-date-picker>
-            <el-input v-model="name" placeholder="请输入内容"></el-input>
-            <el-input v-model="address" placeholder="请输入内容"></el-input>
+            <el-input v-model="input_name" placeholder="请输入内容"></el-input>
+            <el-input
+              v-model="input_address"
+              placeholder="请输入内容"
+            ></el-input>
           </div>
 
           <el-button size="mini" type="success" @click="add"
@@ -79,10 +82,7 @@
 
             <el-table-column fixed="right" label="操作" width="100">
               <template slot-scope="scope">
-                <el-button
-                  @click="handleClick(scope.row)"
-                  type="text"
-                  size="small"
+                <el-button @click="handleClick(scope)" type="text" size="small"
                   >修改</el-button
                 >
                 <el-button type="text" size="small" @click="del_list(scope)"
@@ -92,11 +92,15 @@
             </el-table-column>
           </el-table>
 
-          <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
+          <el-dialog
+            title="收货地址"
+            :visible.sync="dialogFormVisible"
+            :before-close="handleClose"
+          >
             <el-form>
               <el-form-item label="活动名称" :label-width="formLabelWidth">
                 <el-date-picker
-                  v-model="date"
+                  v-model="change_date"
                   type="date"
                   placeholder="选择日期"
                   value-format="yyyy-MM-dd"
@@ -104,14 +108,20 @@
                 </el-date-picker>
               </el-form-item>
               <el-form-item label="活动名称" :label-width="formLabelWidth">
-                <el-input v-model="name" placeholder="请输入内容"></el-input>
+                <el-input
+                  v-model="change_name"
+                  placeholder="请输入内容"
+                ></el-input>
               </el-form-item>
               <el-form-item label="活动名称" :label-width="formLabelWidth">
-                <el-input v-model="address" placeholder="请输入内容"></el-input>
+                <el-input
+                  v-model="change_address"
+                  placeholder="请输入内容"
+                ></el-input>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button @click="dialogFormVisible = false">取 消</el-button>
+              <el-button @click="dialogFormVisible_cancel">取 消</el-button>
               <el-button type="primary" @click="queding">确 定</el-button>
             </div>
           </el-dialog>
@@ -142,10 +152,16 @@ export default {
       name: "",
       address: "",
       index: "",
-
+      change_date: "",
+      change_name: "",
+      change_address: "",
+      input_date: "",
+      input_name: "",
+      input_address: "",
       dialogTableVisible: false,
       dialogFormVisible: false,
       formLabelWidth: "120px",
+      index: "",
     };
   },
   //监听属性 类似于data概念
@@ -168,9 +184,9 @@ export default {
     },
     add() {
       let list = {
-        date: this.date,
-        name: this.name,
-        address: this.address,
+        date: this.input_date,
+        name: this.input_name,
+        address: this.input_address,
       };
       if (list.date != "" && list.name != "" && list.address != "") {
         this.tableData.push(list);
@@ -179,24 +195,36 @@ export default {
         this.address = "";
       }
     },
-    handleClick(row) {
-      console.log(row);
+    handleClick(scope) {
+      console.log(scope.$index);
+      this.index = scope.$index;
       this.dialogFormVisible = true;
-      this.date = row.date;
-      this.name = row.name;
-      this.address = row.address;
+      this.change_date = scope.row.date;
+      this.change_name = scope.row.name;
+      this.change_address = scope.row.address;
     },
+
     del_list(val) {
       console.log(val);
       this.tableData.splice(val.$index, 1);
     },
     queding() {
+      this.tableData.map((t, i) => {
+        console.log(t, i);
+        if (i == this.index) {
+          return (
+            (t.date = this.change_date),
+            ((t.name = this.change_name), (t.address = this.change_address))
+          );
+        }
+      });
+
+      this.dialogFormVisible_cancel();
+    },
+    handleClose(done) {},
+    dialogFormVisible_cancel() {
       this.dialogFormVisible = false;
-      let list = {
-        date: this.date,
-        name: this.name,
-        address: this.address,
-      };
+      this.index = "";
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
