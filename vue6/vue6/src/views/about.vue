@@ -67,7 +67,7 @@
             >添加数据</el-button
           >
 
-          <el-table :data="tableData">
+          <el-table :data="tableDatas">
             <el-table-column
               prop="date"
               label="日期"
@@ -78,9 +78,17 @@
               label="姓名"
               width="120"
             ></el-table-column>
+
             <el-table-column prop="address" label="地址"></el-table-column>
 
-            <el-table-column fixed="right" label="操作" width="100">
+            <el-table-column fixed="right" width="300">
+              <template slot="header" slot-scope="scope">
+                <el-input
+                  v-model="search"
+                  size="mini"
+                  placeholder="输入关键字搜索"
+                />
+              </template>
               <template slot-scope="scope">
                 <el-button @click="handleClick(scope)" type="text" size="small"
                   >修改</el-button
@@ -148,10 +156,6 @@ export default {
           address: "3",
         },
       ],
-      date: "",
-      name: "",
-      address: "",
-      index: "",
       change_date: "",
       change_name: "",
       change_address: "",
@@ -162,10 +166,44 @@ export default {
       dialogFormVisible: false,
       formLabelWidth: "120px",
       index: "",
+      search: "",
     };
   },
+
   //监听属性 类似于data概念
-  computed: {},
+
+  computed: {
+    tableDatas() {
+      //准确查询
+      // let arr = [];
+      // if (this.search == "") {
+      //   return this.tableData;
+      // }
+      // for (const item in this.tableData) {
+      //   // console.log(this.tableData[item]);
+      //   if (this.tableData[item].name == this.search) {
+      //     arr.push(this.tableData[item]);
+      //   }
+      // }
+      // return arr;
+
+      //模糊查询
+      // console.log(this.search);
+      // 监听search变化;
+      // return this.tableData.filter((item) => {
+      //   console.log(item);
+      //   console.log(item.name.includes(this.search));
+      //   return item.name.includes(this.search);
+      // });
+
+      return this.tableData.filter((test) => {
+        console.log(test);
+        console.log(test.name.includes);
+        return test.name.includes(this.search);
+      });
+    },
+  },
+
   //监控data中的数据变化
   watch: {},
   //方法集合
@@ -190,13 +228,16 @@ export default {
       };
       if (list.date != "" && list.name != "" && list.address != "") {
         this.tableData.push(list);
-        this.date = "";
-        this.name = "";
-        this.address = "";
+        this.input_date = "";
+        this.input_name = "";
+        this.input_address = "";
+        list = null;
       }
     },
+
     handleClick(scope) {
-      console.log(scope.$index);
+      //修改( 形参 )
+      console.log(scope.$index); // $index 是 elementui 获取下标的写法
       this.index = scope.$index;
       this.dialogFormVisible = true;
       this.change_date = scope.row.date;
@@ -205,19 +246,59 @@ export default {
     },
 
     del_list(val) {
+      // 删除
       console.log(val);
       this.tableData.splice(val.$index, 1);
     },
     queding() {
-      this.tableData.map((t, i) => {
-        console.log(t, i);
-        if (i == this.index) {
+      // 修改确定;
+      this.tableData.map((t, index) => {
+        console.log(t, index);
+        if (index == this.index) {
           return (
+            // 重新赋值
             (t.date = this.change_date),
             ((t.name = this.change_name), (t.address = this.change_address))
           );
         }
       });
+      //模拟数据
+      {
+        // let test = [
+        //   {
+        //     date: "1",
+        //     name: "test",
+        //     address: "test",
+        //   },
+        //   {
+        //     date: "2",
+        //     name: "test",
+        //     address: "test",
+        //   },
+        //   {
+        //     date: "3",
+        //     name: "test",
+        //     address: "test",
+        //   },
+        //   {
+        //     date: "4",
+        //     name: "test",
+        //     address: "test",
+        //   },
+        //   {
+        //     date: "5",
+        //     name: "test",
+        //     address: "test",
+        //   },
+        // ];
+        // console.log(test);
+        // test.map((date, index) => {
+        //   // console.log(date, index);
+        //   if (index == 2) {
+        //     console.log(date);
+        //   }
+        // });
+      }
 
       this.dialogFormVisible_cancel();
     },
@@ -228,7 +309,15 @@ export default {
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
+  created() {
+    for (var i = 0; i < 10; i++) {
+      this.tableData.push({
+        date: `2022-05-2${i + 1}`,
+        name: `张三_${i}`, //`${}`
+        address: `河南${i}`,
+      });
+    }
+  },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},
   beforeCreate() {}, //生命周期 - 创建之前
